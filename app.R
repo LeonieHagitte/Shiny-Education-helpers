@@ -22,8 +22,9 @@ ui = fluidPage(
     sidebarPanel(
       actionButton("newplot", "New plot"),
       sliderInput(inputId = "noise_sd","Noise SD:",
-                  min=0.1,max=10,value=1,step = .1)
-      
+                  min=0.1,max=10,value=1,step = .1),
+      sliderInput(inputId = "n","N:",
+                  min=15,max=100,value=30,step =5)
     )
     ,
     mainPanel(plotOutput("plot")
@@ -43,9 +44,9 @@ server = function(input, output) {
   output$plot <- renderPlot({
     #input$newplot
     noise_sd = input$noise_sd
-    # Add a little noise to the cars data
-    #cars2 <- cars + rnorm(nrow(cars))
-    n <- 100
+    n = input$n
+    # Add a little noise to the data
+    n <- n
     x <- rnorm(n, 0, 1)
     y <- 100 + 0.5*x + rnorm(n, 0, noise_sd)
     simulated_data <- data.frame(x, y)
